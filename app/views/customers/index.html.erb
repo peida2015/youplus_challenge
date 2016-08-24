@@ -10,6 +10,22 @@
     <option value="name">name</option>
   </select>
 
+  <form class="filter" action="index.html" method="GET">
+    <div class="fieldFilter">
+      <input type="checkbox" name="name" checked="checked">
+      <span class="">location</span>
+      <select class="is-or-not" name="">
+        <option value="is">is</option>
+        <option value="is not">is not</option>
+      </select>
+      <span class="">in</span>
+      <select class="locations" name="">
+        <option value="California" selected="selected">California</option>
+        <option value="Texas">Texas</option>
+      </select>
+    </div>
+  </form>
+
   <thead>
     <tr>
       <th>Name</th>
