@@ -34,9 +34,32 @@
             var ltr = $('<option>'+letters[i]+'</option>').val(letters[i]).appendTo(lettersField);
             if (i === 0) { ltr.attr('selected', 'selected'); }
           }
+        } else if (selectedField.value === "age") {
+            console.log('age selected');
+            var fieldFilter = $('<div>').addClass('fieldFilter').appendTo('form.filter');
+            $('<input>').attr({
+              'type': 'checkbox',
+              'checked': 'checked'
+            }).appendTo(fieldFilter);
 
-          selectedField.disabled=true;
-        }
+            $('<span>'+selectedField.value+'</span>').appendTo(fieldFilter);
+            var isOrNot = $('<select>').addClass('is-or-not').appendTo(fieldFilter);
+            $('<option>is</span>').val('is').attr({
+              'selected': "selected"
+            }).appendTo(isOrNot);
+
+            $('<option>is not</option>').val('is not').appendTo(isOrNot);
+            $('<span>between</span>').appendTo(fieldFilter);
+
+            var ageRange = $('<select>').addClass('letters').appendTo(fieldFilter);
+
+            for(var i = 0; i < 10; i++) {
+              var ltr = $('<option>'+(i*10)+' to '+(i*10+10-1)+'</option>').val(i).appendTo(ageRange);
+              if (i === 0) { ltr.attr('selected', 'selected'); };
+            }
+        };
+
+        selectedField.disabled=true;
 
       };
 
