@@ -9,7 +9,7 @@
     <option value="name">name</option>
   </select>
 
-  <form class="filter" action= <%= customers_url %> method="GET">
+  <div class="filter">
     <div class="fieldFilter">
       <input type="checkbox" class="fieldSelectedBox" name="location" checked="checked">
       <span class="">location</span>
@@ -21,9 +21,11 @@
       <select class="locations" name="">
         <option value="California" selected="selected">California</option>
         <option value="Texas">Texas</option>
+        <option value="Wyoming">Wyoming</option>
+        <option value="New York">New York</option>
       </select>
     </div>
-  </form>
+  </div>
 
 <table>
   <thead>
@@ -41,7 +43,7 @@
         <td><%= customer.name %></td>
         <td><%= customer.location %></td>
         <td><%= customer.age %></td>
-        <td><%= link_to 'Show', customer %></td>
+        <!-- <td><%= link_to 'Show', customer %></td> -->
         <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
       </tr>
     <% end %>
