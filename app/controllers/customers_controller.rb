@@ -4,7 +4,36 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-    @customers = Customer.all
+    if params.length == 2
+      @customers = Customer.all
+    else
+      query_string = []
+      search_vals = {};
+
+      if params[:location]
+        params[:location][:pos] == "true" ? query_string << "(location = :location)" : query_string << "(location != :location) "
+        location = params[:location][:value]
+        search_vals[:location] = location
+      end
+
+      if params[:age]
+        params[:age][:pos] == "true" ? query_string << "(age BETWEEN :lower_bound AND :upper_bound)" : query_string << "(age NOT BETWEEN :lower_bound AND :upper_bound)"
+        age = params[:age][:value].to_i
+        search_vals[:lower_bound] = age*10
+        search_vals[:upper_bound] = age*10+10-1
+      end
+
+      if params[:name]
+        params[:name][:pos] == "true" ? query_string << "(name LIKE :name)" : query_string << "(name NOT LIKE :name)"
+        name = params[:name][:value]+"%"
+        search_vals[:name] = name
+      end
+
+      query_string = query_string.join(" AND ")
+
+      @customers = Customer.where(query_string, search_vals)
+      # debugger
+    end
   end
 
   # GET /customers/1
@@ -71,4 +100,5 @@ class CustomersController < ApplicationController
     def customer_params
       params.require(:customer).permit(:name, :location, :age)
     end
+
 end

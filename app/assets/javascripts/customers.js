@@ -74,6 +74,9 @@
 
       window.selectors.updateTable = function (data) {
         console.log('updateTable');
+        var parser = new DOMParser();
+        var htmlDoc = parser.parseFromString(data, "text/html")
+        $('tbody').replaceWith($(htmlDoc).find('tbody'))
       };
 
       window.selectors.handleSubmit = function (evt) {
@@ -92,12 +95,10 @@
           }
         }
 
-        debugger
-
         $.get('./customers', data, window.selectors.updateTable);
 
       };
-      
+
       $('.fieldFilter select').change(window.selectors.handleSubmit);
     }
   }
