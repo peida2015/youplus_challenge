@@ -65,6 +65,8 @@ $(document).on("turbolinks:load", function () {
     $('.fieldFilter select').off("change");
     $('.fieldFilter select').change(window.selectors.handleSubmit);
     selectedField.disabled=true;
+    $('.fieldSelectedBox').off("change");
+    $('.fieldSelectedBox').change(window.selectors.handleSubmit);
 
   };
 
@@ -96,7 +98,7 @@ $(document).on("turbolinks:load", function () {
     $.get('./customers', data, window.selectors.updateTable);
 
   };
-
+  $('.fieldSelectedBox').change(window.selectors.handleSubmit);
   $('.fieldFilter select').change(window.selectors.handleSubmit);
 
 });
