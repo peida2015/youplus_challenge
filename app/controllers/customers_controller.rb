@@ -4,6 +4,8 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
+    @states = Customer.distinct.pluck(:location)
+
     if params.length == 2
       @customers = Customer.all
     else
@@ -32,7 +34,6 @@ class CustomersController < ApplicationController
       query_string = query_string.join(" AND ")
 
       @customers = Customer.where(query_string, search_vals)
-      # debugger
     end
   end
 

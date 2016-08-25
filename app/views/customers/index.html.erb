@@ -19,10 +19,9 @@
       </select>
       <span class="">in</span>
       <select class="locations" name="">
-        <option value="California" selected="selected">California</option>
-        <option value="Texas">Texas</option>
-        <option value="Wyoming">Wyoming</option>
-        <option value="New York">New York</option>
+        <% @states.each do |state| %>
+          <option value=<%= state %>><%= state %></option>
+        <% end %>
       </select>
     </div>
   </div>
