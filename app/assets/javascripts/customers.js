@@ -15,18 +15,21 @@
         if (selectedField.value === "name") {
           // Add name filter to view
           var fieldFilter = $('<div>').addClass('fieldFilter').appendTo('form.filter');
-          $('<input>').attr({
+          $('<input>').addClass('fieldSelectedBox').attr({
             'type': 'checkbox',
-            'checked': 'checked'
+            'checked': 'checked',
+            'name': selectedField.value
           }).appendTo(fieldFilter);
 
           $('<span>'+selectedField.value+'</span>').appendTo(fieldFilter);
           var isOrNot = $('<select>').addClass('is-or-not').appendTo(fieldFilter);
-          $('<option>starts with</span>').val('starts with').attr({
+          $('<option>starts</span>').val('true').attr({
             'selected': "selected"
           }).appendTo(isOrNot);
 
-          $('<option>does not start with</option>').val('does not start with').appendTo(isOrNot);
+          $('<option>does not start</option>').val('false').appendTo(isOrNot);
+
+          $('<span>with</span>').appendTo(fieldFilter);
 
           var lettersField = $('<select>').addClass('letters').appendTo(fieldFilter);
           var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -35,20 +38,21 @@
             if (i === 0) { ltr.attr('selected', 'selected'); }
           }
         } else if (selectedField.value === "age") {
-            console.log('age selected');
+            // Add age filter to view.
             var fieldFilter = $('<div>').addClass('fieldFilter').appendTo('form.filter');
-            $('<input>').attr({
+            $('<input>').addClass('fieldSelectedBox').attr({
               'type': 'checkbox',
-              'checked': 'checked'
+              'checked': 'checked',
+              'name': selectedField.value
             }).appendTo(fieldFilter);
 
             $('<span>'+selectedField.value+'</span>').appendTo(fieldFilter);
             var isOrNot = $('<select>').addClass('is-or-not').appendTo(fieldFilter);
-            $('<option>is</span>').val('is').attr({
+            $('<option>is</span>').val('true').attr({
               'selected': "selected"
             }).appendTo(isOrNot);
 
-            $('<option>is not</option>').val('is not').appendTo(isOrNot);
+            $('<option>is not</option>').val('false').appendTo(isOrNot);
             $('<span>between</span>').appendTo(fieldFilter);
 
             var ageRange = $('<select>').addClass('letters').appendTo(fieldFilter);
@@ -59,13 +63,42 @@
             }
         };
 
+        // Remove change listeners from all select fields first and attach again.
+        $('.fieldFilter select').off("change");
+        $('.fieldFilter select').change(window.selectors.handleSubmit);
         selectedField.disabled=true;
 
       };
 
       $('select.fields').change(window.selectors.handleSelectField);
 
+      window.selectors.updateTable = function (data) {
+        console.log('updateTable');
+      };
 
+      window.selectors.handleSubmit = function (evt) {
+        evt.preventDefault();
+        var data = {};
+        var form = $('.fieldFilter');
+        // Aggregate data
+        for (var j = 0; j < form.length; j++) {
+          // Add to query data only if box is checked.
+          var field = form[j].children;
+          if (field[0].checked) {
+            var fieldName = field[0].name;
+            data[fieldName] = {};
+            data[fieldName]["pos"] = field[2].value;
+            data[fieldName]["value"] = field[4].value;
+          }
+        }
+
+        debugger
+
+        $.get('./customers', data, window.selectors.updateTable);
+
+      };
+      
+      $('.fieldFilter select').change(window.selectors.handleSubmit);
     }
   }
 })();

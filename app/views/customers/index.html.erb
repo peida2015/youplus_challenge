@@ -9,13 +9,13 @@
     <option value="name">name</option>
   </select>
 
-  <form class="filter" action="index.html" method="GET">
+  <form class="filter" action= <%= customers_url %> method="GET">
     <div class="fieldFilter">
-      <input type="checkbox" name="name" checked="checked">
+      <input type="checkbox" class="fieldSelectedBox" name="location" checked="checked">
       <span class="">location</span>
       <select class="is-or-not" name="">
-        <option value="is">is</option>
-        <option value="is not">is not</option>
+        <option value="true">is</option>
+        <option value="false">is not</option>
       </select>
       <span class="">in</span>
       <select class="locations" name="">
